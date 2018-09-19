@@ -58,7 +58,7 @@ With a plethora of different actors, identity management and access to data is k
 has been developed that identifies actors and gives them the appropriate scope over a health record, contingent on
 the patient’s permission.
 
-# Participant $ Permissions
+# Participant & Permissions
 
 # Patient
 @ Create/READ/Update Own record
