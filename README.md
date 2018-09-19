@@ -70,7 +70,7 @@ the patient’s permission.
 - Weekly exercise
 @ Able to search avaialble Clinicians/Labs in network.
 
-#Clinician / Labs
+# Clinician / Labs
 @ Read/Write on permissioned EHRs
 @ Able to search avaialble Clinicians/Labs in network.
 
