@@ -10,10 +10,10 @@ of the current healthcare systems:
 A patient often visits multiple disconnected hospitals. He has to keep the history of all his data and maintain the
 updates. This leads to the situation when required information may not be available.
 
-# Due to the unavailability of the data, patient may have to repeat some tests for laboratory results. This is common
-when the results are stored in another hospital and can not be immediately accessed.
-# The healthcare data are sensitive and their management is cumbersome. Yet, there is no privacy-preserving system
-in clinical practice that allows patients to maintain access control policy in an efficient manner.
+# Due to the unavailability of the data, patient may have to repeat some tests for laboratory results. 
+This is common when the results are stored in another hospital and can not be immediately accessed.
+# The healthcare data are sensitive and their management is cumbersome. 
+Yet, there is no privacy-preserving system in clinical practice that allows patients to maintain access control policy in an efficient manner.
 # Sharing data between different healthcare providers may require major effort and could be time consuming.
 Relying on centralized entity that would store and manage the patients’ data and access control policies means having
 single point of failure and a bottleneck of the whole framework.
