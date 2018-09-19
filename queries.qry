@@ -1,0 +1,47 @@
+
+//get all clinician
+query getAllClinician{
+description: "list all the clinician"
+statement:
+      SELECT org.lms.ehr.Clinician
+      FROM org.lms.ehr.Clinician
+}
+
+//get all clinician
+query searchClinician{
+description: "search the clinician"
+statement:
+      SELECT org.lms.ehr.Clinician
+      WHERE (firstName == _$clinicianName)
+}
+
+//get all clinician
+query getMyClinician{
+description: "get my clinician"
+statement:
+      SELECT org.lms.ehr.Clinician
+      WHERE (myPatients CONTAINS _$patient)
+}
+
+query getMedicalRecordOfPatient{
+description: "get medical record of patient"
+statement:
+      SELECT org.lms.ehr.MedicalRecord
+      WHERE (owner == _$patientEmail)
+}
+
+//get my labs
+query getMyLabs{
+description: "get my labs"
+statement:
+      SELECT org.lms.ehr.Lab
+      WHERE (myPatients CONTAINS _$patient)
+}
+
+//get all labs
+query getAllLabs{
+description: "list all the Labs"
+statement:
+      SELECT org.lms.ehr.Lab
+      FROM org.lms.ehr.Lab
+}

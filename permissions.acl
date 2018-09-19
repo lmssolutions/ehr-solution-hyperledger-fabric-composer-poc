@@ -1,0 +1,216 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Access control rules for mynetwork
+ */
+rule SystemACL {
+    description:  "System ACL to permit all access"
+    participant: "org.hyperledger.composer.system.Participant"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}
+
+rule NetworkAdminUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
+rule NetworkAdminSystem {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}
+
+rule R1a_ClinicianSeeUpdateThemselvesOnly {
+  description: "Trader can see and update their own record only"
+  participant(t): "org.lms.ehr.Clinician"
+  operation: ALL
+  resource(v): "org.lms.ehr.Clinician"
+  condition: (v.getIdentifier() == t.getIdentifier())
+  action: ALLOW
+}
+
+rule R1b_PatientSeeUpdateThemselvesOnly {
+  description: "Trader can see and update their own record only"
+  participant(t): "org.lms.ehr.Patient"
+  operation: ALL
+  resource(v): "org.lms.ehr.Patient"
+  condition: (v.getIdentifier() == t.getIdentifier())
+  action: ALLOW
+}
+
+rule R1c_PatientSeeUpdateOwnMedicalRecord {
+  description: "Patient can see and update their own record only"
+  participant(t): "org.lms.ehr.Patient"
+  operation: ALL
+  resource(v): "org.lms.ehr.MedicalRecord"
+  condition: (v.owner.getIdentifier() == t.getIdentifier())
+  action: ALLOW
+}
+
+rule LimitAccessToAutorisedClinician {
+   description: "A Clinician may updates a medical record which they have permission"
+   participant(h): "org.lms.ehr.Clinician"
+   operation: READ, UPDATE
+   resource(m): "org.lms.ehr.MedicalRecord"
+   condition: (
+     m.authorisedClinicians.some(function (authorisedClinician) {
+        return authorisedClinician.getIdentifier() === h.getIdentifier();  
+        } )
+   )
+   action: ALLOW
+}
+
+rule R1a_PatientSeeAllClinicians {
+  description: "Patient can see all clinicians"
+  participant: "org.lms.ehr.Patient"
+  operation: ALL
+  resource: "org.lms.ehr.Clinician"
+  action: ALLOW
+}
+
+rule ClinicianSeeOnlyTheirPatients {
+   description: "A Clinician see only list of patients they are authorised to modify"
+   participant(h): "org.lms.ehr.Clinician"
+   operation: READ
+   resource(m): "org.lms.ehr.Patient"
+   condition: (
+     h.myPatients.some(function (patient) {
+        return patient.getIdentifier() === m.getIdentifier();  
+        } )
+   )
+   action: ALLOW
+}
+
+rule GrantAccessTransaction {
+    description: "Allow all patient to submit grantAccess transactions"
+    participant: "org.lms.ehr.Patient"
+    operation: ALL
+    resource: "org.lms.ehr.GrantAccess"
+    action: ALLOW
+}
+
+rule RevokeAccessTransaction {
+    description: "Allow all patient to submit RevokeAccess transactions"
+    participant: "org.lms.ehr.Patient"
+    operation: ALL
+    resource: "org.lms.ehr.revokeAccess"
+    action: ALLOW
+}
+
+rule R1a_LabsSeeUpdateThemselvesOnly {
+  description: "Trader can see and update their own record only"
+  participant(t): "org.lms.ehr.Lab"
+  operation: ALL
+  resource(v): "org.lms.ehr.Lab"
+  condition: (v.getIdentifier() == t.getIdentifier())
+  action: ALLOW
+}
+
+rule LimitAccessToAutorisedLabs {
+   description: "A Lab may updates a medical record which they have permission"
+   participant(h): "org.lms.ehr.Lab"
+   operation: ALL
+   resource(m): "org.lms.ehr.MedicalRecord"
+   condition: (
+     m.authorisedLabs.some(function (authorisedlab) {
+        return authorisedlab.getIdentifier() === h.getIdentifier();  
+        } )
+   )
+   action: ALLOW
+}
+
+rule LabSeeOnlyTheirPatients {
+   description: "A Clinician see only list of patients they are authorised to modify"
+   participant(h): "org.lms.ehr.Lab"
+   operation: READ
+   resource(m): "org.lms.ehr.Patient"
+   condition: (
+     h.myPatients.some(function (patient) {
+        return patient.getIdentifier() === m.getIdentifier();  
+        } )
+   )
+   action: ALLOW
+}
+
+rule GrantAccessToLabTran {
+    description: "Allow all patient to submit grantAccess transactions"
+    participant: "org.lms.ehr.Patient"
+    operation: ALL
+    resource: "org.lms.ehr.GrantAccessToLab"
+    action: ALLOW
+}
+
+rule RevokeAccessLabTran {
+    description: "Allow all patient to submit RevokeAccess transactions"
+    participant: "org.lms.ehr.Patient"
+    operation: ALL
+    resource: "org.lms.ehr.revokeAccessFromLab"
+    action: ALLOW
+}
+
+rule R1a_PatientSeeAllLab {
+  description: "Patient can see all clinicians"
+  participant: "org.lms.ehr.Patient"
+  operation: ALL
+  resource: "org.lms.ehr.Lab"
+  action: ALLOW
+}
+/*
+
+
+
+
+
+
+rule R1a_ClinicianSeeAllClinicians {
+  description: "Patient can see all clinicians"
+  participant: "org.lms.ehr.Clinician"
+  operation: ALL
+  resource: "org.lms.ehr.Clinician"
+  action: ALLOW
+}
+
+
+
+
+
+rule R1a_EveryoneSeeAllLabs {
+  description: "everyone can see all labs"
+  participant: "ANY"
+  operation: READ
+  resource: "org.lms.ehr.Lab"
+  action: ALLOW
+}
+
+*/
+
+/*rule R1a_PatientAddMyClinicianInClinician {
+  description: "Trader can see and update their own record only"
+  participant(t): "org.lms.ehr.Patient"
+  operation: READ, UPDATE
+  resource(v): "org.lms.ehr.Clinician"
+  condition: (
+   v.myPatients.some(function (patient) {
+      return patient.getIdentifier() === t.getIdentifier();  
+      } )
+   )
+  action: ALLOW
+}*/

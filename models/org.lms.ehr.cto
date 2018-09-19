@@ -1,0 +1,103 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Write your model definitions here
+ */
+
+namespace org.lms.ehr
+
+participant Patient identified by patientId {
+  o String patientId
+  o String firstName
+  o String lastName
+  o String dob
+  o Address address 
+}
+
+concept Address {
+  o String address
+  o String city
+  o String state
+  o String country
+  o String zip
+}
+
+participant Clinician identified by clinicianId {
+  o String clinicianId
+  o String firstName
+  o String lastName
+  o String registrationNumber
+  o String Specialisation
+  o Address address
+  --> Patient[] myPatients optional
+}
+
+participant Lab identified by labId {
+  o String labId
+  o String name
+  o String address
+  --> Patient[] myPatients optional
+}
+
+asset MedicalRecord identified by recordId {
+  o String recordId
+  o String medicalHistory optional
+  o String Allergies optional
+  o String currentMedication optional
+  o String lastConsultationWith optional
+  o String lastConsultationDate optional
+  o String activeHoursInAWeek optional
+  o Boolean smoking optional
+  --> Patient owner
+  --> Clinician[] authorisedClinicians optional
+  --> Lab[] authorisedLabs optional
+}
+
+transaction GrantAccess {
+  --> Clinician authorisedToModify
+  --> MedicalRecord medicalRecord
+}
+
+transaction revokeAccess{
+  --> Clinician revokeThisClinician
+  --> MedicalRecord medicalRecord
+}
+
+transaction GrantAccessToLab {
+  --> Lab addThislab
+  --> MedicalRecord medicalRecord
+}
+
+transaction revokeAccessFromLab{
+  --> Lab revokeThisLab
+  --> MedicalRecord medicalRecord
+}
+
+transaction CreateMedicalRecord{
+  o String medicalHistory optional
+  o String Allergies optional
+  o String currentMedication optional
+  o String lastConsultationWith optional
+  o String lastConsultationDate optional
+  o String activeHoursInAWeek optional
+  o Boolean smoking optional
+  --> Patient owner
+}
+
+@commit(false)
+@returns(String)
+transaction getUserType {
+  o String email
+}

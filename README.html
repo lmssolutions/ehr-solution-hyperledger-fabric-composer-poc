@@ -1,0 +1,274 @@
+<div class="container">
+    <div class="m-content">
+      <div class="inner-div">
+        <div style="margin:20px;">
+          <h4 style="text-align:center;">About Us</h4>
+          <h4>1. Abstract</h4>
+          <p>Electronic medical records (EMRs) are critical, highly sensitive private information in healthcare, and need to be
+            frequently shared among peers such as healthcare providers, insurance companies, pharmacies, researchers, patients
+            families, among others. Blockchain provides a shared , immutable and transparent history of all the transactions
+            to build applications with trust, accountability and transparency. This provides a unique opportunity to develop
+            a secure and trustable EMR data management and sharing system using blockchain.</p>
+    
+          <p>Using blockchain technology for primary patient care can help to address the following problems
+            of the current healthcare systems:</p>
+    
+          <p>A patient often visits multiple disconnected hospitals. He has to keep the history of all his data and maintain the
+            updates. This leads to the situation when required information may not be available.</p>
+    
+          <p>• Due to the unavailability of the data, patient may have to repeat some tests for laboratory results. This is common
+            when the results are stored in another hospital and can not be immediately accessed.</p>
+          <p>• The healthcare data are sensitive and their management is cumbersome. Yet, there is no privacy-preserving system
+            in clinical practice that allows patients to maintain access control policy in an efficient manner.</p>
+          <p>• Sharing data between different healthcare providers may require major effort and could be time consuming.</p>
+          <p>• Relying on centralized entity that would store and manage the patients’ data and access control policies means having
+            single point of failure and a bottleneck of the whole framework.</p>
+    
+    
+          <p>The possibility of using blockchain for healthcare data management has recently raised a lot of attention.In our work,
+            we focus on a practical implementation of a system that uses blockchain technology and can be integrated in clinical
+            practice. We employ permissioned blockchain technology to maintain metadata and access control policy. Combining these technologies allows us to guarantee data security and
+            privacy as well as availability with respect to the access control policy defined by the patient.</p>
+    
+          <h5>1. Background on Blockchain:</h5>
+          <p>Blockchain is a peer-to-peer distributed ledger technology that was initially used in the financial industry. Based
+            on how the identity of a user is defined within a network, one could distinguish between permissioned and permissionless
+            blockchain systems. A permissionless system is one in which the identities of participants are either pseudonymous
+            or even anonymous and every user may append a new block to the ledger. In contrast, in case of a permissioned blockchain,
+            the identity of a user is controlled by an identity provider. The identity provider is trusted to maintain access
+            control within the network and the user’s rights to participate in the consensus, or validate a new block. Next we
+            introduce two most well-known implementations of the blockchain technology: Ethereum and Hyperledger.</p>
+    
+          <img src="assets/images/blockchain.PNG" class="img-resp">
+    
+          <h5>2. Hyperledger Fabric: </h5>
+    
+          <p>The Hyperledger blockchain network is permission-based and requires users to sign up to use it. Permissioning on the
+            network is controlled using Hyperledger modelling and access control languages. Hyperledger Fabric is a platform
+            for distributed ledger solutions underpinned by a modular architecture delivering high degrees of confidentiality,
+            resilience, flexibility and scalability. Medical information is often highly sensitive, in both a social and legal
+            sense, so a closed blockchain such as Hyperledger Fabric helps to retain the necessary privacy required for such
+            an application. Hyperledger Fabric is a better solution for managing access to health records, as it accommodates
+            for multiple layers of permission, meaning the owner of a set of data can control which parts of their data is accessed.
+            </p>
+          <img src="/images/workflow-new.png" class="img-resp">
+    
+    
+    
+          <h5> Potential Blockchain Application in Healthcare:</h5>
+          <p>Blockchain provides a unique opportunity to support healthcare. </p>
+    
+    
+          <p>Our EHR Solution enables the user to give healthcare professionals access to their personal health data. EHR Solution
+            then records interactions with this data in an auditable, transparent and secure way on systems distributed ledger.</p>
+    
+    
+          <p>Lastly, Our EHR Solution is a platform for others to use that complement and improve the user experience. Users will
+            be able to leverage their medical data to power a plethora of applications and services. Our Solution improves care
+            for people by placing the patient at the centre of the digital transformation of healthcare. In order to be provided
+            with the best care patients not only can, but must have control over their own data.</p>
+    
+          <img src="/images/HyperledgerFabricArchitectue.PNG" class="img-resp">
+    
+    
+          <h4>2. Technical Explanation</h4>
+    
+          <h6># Participants Definitions and Permissions</h6>
+    
+          <p>With a plethora of different actors, identity management and access to data is key to our EHR solution. A dynamic system
+            has been developed that identifies actors and gives them the appropriate scope over a health record, contingent on
+            the patient’s permission.</p>
+          <p> Below are some examples of read/write permission:</p>
+          <table class="table">
+            <tr>
+              <th>Participant</th>
+              <th>Permissions</th>
+            </tr>
+            <tr>
+              <td>Patient</td>
+              <td> @ Create/READ/Update Own record
+                <br/> @ Revoke permission from Practitioners/Institutions.
+                <br/> @ Permission a Practitioner/Institution to Read/Write EHR or a portion of their EHR
+                <br/> @ Write certain attributes to EHR :
+                <br/> - Amount of tobacco consumed daily
+                <br/> - Alcohol consumed weekly
+                <br/> - Weekly exercise
+                <br/>@ Able to search avaialble Clinicians/Labs in network.</td>
+            </tr>
+            <tr>
+              <td>Clinician / Labs</td>
+              <td>@ Read/Write on permissioned EHRs
+                <br/> @ Able to search avaialble Clinicians/Labs in network.</td>
+            </tr>
+          </table>
+    
+          <img src="/images/home-img.png" class="img-resp">
+    
+          <h4> 3. Transactions</h4>
+    
+          <h6>Patient Granting Access</h6>
+          <p>• Patient A grants access to EHR to Practitioner A</p>
+          <p>• Practitioner A’s ID is added to Patient A’s authorised asset on the ledger</p>
+          <p>• Patient A’s ID is added to Practitioner A’s authorised asset on the ledger</p>
+          <p>• The Symmetric key for the EHR is decrypted with Patient A’s private key</p>
+          <p>• Symmetric key is then encrypted with Practitioner A’s public key </p>
+    
+          <h6>Patient Revoking Access</h6>
+          <p>• Patient A revokes access from Practitioner A</p>
+          <p>• Practitioner A’s ID is removed from Patient A’s authorised asset</p>
+          <p>• Patient A’s ID is removed from Practitioner A’s authorised asset</p>
+          <p>• Patient A’s private key is used to decrypt Symmetric key for EHR which is used to decrypt the EHR</p>
+          <p>• The EHR is encrypted with a new Symmetric key</p>
+          <p>• The new Symmetric key is encrypted with Patient A’s public key and the public keys of all the remaining IDs that
+            have permission
+    
+    
+            <h4>4. Data Structure</h4>
+            <p>Hyperledger’s modelling language will be used to define the domain model for the network. Below are some examples
+              from the .CTO file of how models will be defined and stored on the chain. These are subject to change depending
+              upon different regulations and requirements in order to make the platform HIPPA compliant.</p>
+    
+            <table class="table">
+              <tr>
+                <th>Participants</th>
+                <th></th>
+              </tr>
+              <tr>
+                <table class="table table-bordered sub-table" style="width:60%;">
+                  <tr>
+                    <th colspan="2">Patient</th>
+                  </tr>
+                  <tr>
+                    <td>PatientId</td>
+                    <td>String</td>
+                  </tr>
+                  <tr>
+                    <td>Firstname</td>
+                    <td>String</td>
+                  </tr>
+                  <tr>
+                    <td>lastName</td>
+                    <td>String</td>
+                  </tr>
+                  <tr>
+                    <td>Address</td>
+                    <td>String</td>
+                  </tr>
+                </table>
+              </tr>
+              <tr>
+                <table class="table table-bordered sub-table" style="width:60%;">
+                  <tr>
+                    <th colspan="2">Clinician</th>
+                  </tr>
+                  <tr>
+                    <td>ClinicianId</td>
+                    <td>String</td>
+                  </tr>
+                  <tr>
+                    <td>Firstname</td>
+                    <td>String</td>
+                  </tr>
+                  <tr>
+                    <td>lastName</td>
+                    <td>String</td>
+                  </tr>
+                  <tr>
+                    <td>Address</td>
+                    <td>String</td>
+                  </tr>
+                </table>
+              </tr>
+              <tr>
+    
+                <table class="table table-bordered sub-table" style="width:60%;">
+                  <tr>
+                    <th colspan="2">Labs</th>
+                  </tr>
+                  <tr>
+                    <td>LabId</td>
+                    <td>String</td>
+                  </tr>
+                  <tr>
+                    <td>name</td>
+                    <td>String</td>
+                  </tr>
+                  <tr>
+                    <td>Address</td>
+                    <td>String</td>
+                  </tr>
+                </table>
+              </tr>
+            </table>
+    
+            <table class="table">
+              <tr>
+                <th >Asset</th>
+              </tr>
+              <tr>
+                <table class="table table-bordered sub-table" style="width:60%;">
+                  <tr>
+                    <th colspan="2">MedicalRecord</th>
+                  </tr>
+                  <tr>
+                    <td>RecordId </td>
+                    <td>String </td>
+                  </tr>
+                  <tr>
+                    <td>Decease </td>
+                    <td>String </td>
+                  </tr>
+                  <tr>
+                    <td>lastVisitedCLinician </td>
+                    <td>Date </td>
+                  </tr>
+                  <tr>
+                    <td>AuthorisedClinicians </td>
+                    <td>Clinicians </td>
+                  </tr>
+                  <tr>
+                    <td>AuthorisedLabs </td>
+                    <td>labs </td>
+                  </tr>
+                  <tr>
+                    <td>Owner </td>
+                    <td>Patient </td>
+                  </tr>
+                </table>
+    
+              </tr>
+            </table>
+    
+            <h5>User Centric Model</h5>
+            <p> the current healthcare system, patients have their health information spread over multiple systems, hospitals, networks
+              and potentially countries. There are multiple fragmented records of the same patient, held at different institutions
+              with their own snapshot of the patient’s health during their interaction with them such as blood tests, imaging,
+              and clinic letters. EHR Solution will order and filter all of these records into a chronological order and the
+              specific categories above to aid data handling. Such categorisation would make the records more accessible and
+              understandable for patients, and also facilitate researchers in seeking out the information important to them.
+              </p>
+    
+            <h5>Patient Safety:</h5>
+    
+            <p> A patient can generally grant or decline healthcare professionals access to their records. However, in the event
+              of an emergency and with the patient incapacitated, there must be an ability to view certain information in order
+              to provide the best possible care. The most vital information needed in an emergency would be the patient’s name,
+              their next of kin, medications, allergies and any advanced decisions they may have made. Patients using the platform
+              will have the ability to select in advance which areas of their records can be viewed in an emergency situation.
+              </p>
+    
+    
+    
+    
+    
+        </div>
+    
+      </div>
+    
+    
+    </div>
+    
+    </div>
+    
+    
+    
